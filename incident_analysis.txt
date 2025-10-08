@@ -1,1 +1,10 @@
 INCIDENT ANALYSIS - SEPTEMBER 2024
+
+Analysperiod: 2024-09-01 till 2024-09-30
+
+INCIDENTS PER SEVERITY
+-----------------------
+Critical  10
+High      13
+Medium    17
+Low       12
