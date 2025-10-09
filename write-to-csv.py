@@ -88,7 +88,7 @@ report += "\n"
 
 #Calculated costs of all incidents
 total_cost = sum(r["_cost"] for r in incidents)
-report += f"Total cost of all incidents: {total_cost:,.2f} SEK\n\n"
+report += "Total cost of all incidents: " + f"{total_cost:,.2f}".replace(",", " ").replace(".", ",") + " SEK\n\n"
 
 
 with open('incident_analysis.txt', 'w', encoding='utf-8') as f:

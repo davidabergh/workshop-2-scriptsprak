@@ -31,5 +31,5 @@ TECH-2024-040  Lager           RT-LAGER-01         28 765,50 SEK
 TECH-2024-049  Kontor Malmö    RT-MAL-01           26 789,75 SEK
 TECH-2024-037  Säkerhetskopia  RT-DR-01            24 567,25 SEK
 
-Total cost of all incidents: 445,910.10 SEK
+Total cost of all incidents: 445 910,10 SEK
 
