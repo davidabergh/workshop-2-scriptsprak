@@ -57,6 +57,39 @@ else:
 
 report += "\n"
 
+report += "TOP 5 MOST EXPENSIVE INCIDENTS\n--------------------------------\n"
+
+#Counting the 5 most exensive incidents
+#First of a helper for the swedish costs 
+
+cost_str = "1 234,50"  
+cost_float = float(cost_str.replace(' ', '').replace(',', '.'))
+
+for r in incidents:
+    r["_cost"] = float(r["cost_sek"].replace(" ", "").replace(",", ".")) if r["cost_sek"] else 0.0
+
+# The top 5 sorted
+top5 = sorted(incidents, key=lambda r: r["_cost"], reverse=True)[:5]
+
+# A summary for the top 5
+summary_top5 = [
+    {"Ticket": r["ticket_id"], "Site": r["site"], "Enhet": r["device_hostname"],
+     "Kostnad_SEK": f"{r['_cost']:,.2f}".replace(",", " ").replace(".", ",")}
+    for r in top5
+]
+
+for row in summary_top5:
+    if row["Enhet"] == "Summa topp 5":
+        report += f"{row['Enhet']:<35} {row['Kostnad_SEK']} SEK\n"
+    else:
+        report += f"{row['Ticket']:>13}  {row['Site']:<14}  {row['Enhet']:<18}  {row['Kostnad_SEK']} SEK\n"
+report += "\n"
+
+
+#Calculated costs of all incidents
+total_cost = sum(r["_cost"] for r in incidents)
+report += f"Total cost of all incidents: {total_cost:,.2f} SEK\n\n"
+
 
 with open('incident_analysis.txt', 'w', encoding='utf-8') as f:
     f.write(report)

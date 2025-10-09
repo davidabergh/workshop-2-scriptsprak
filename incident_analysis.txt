@@ -23,3 +23,13 @@ Datacenter      LB-DC-02             198 users
 Datacenter      SW-DC-CORE-01        123 users
 Datacenter      FW-DC-01             178 users
 
+TOP 5 MOST EXPENSIVE INCIDENTS
+--------------------------------
+TECH-2024-024  Huvudkontor     SW-ACCESS-03        45 678,90 SEK
+TECH-2024-022  Datacenter      SW-DC-TOR-02        34 567,50 SEK
+TECH-2024-040  Lager           RT-LAGER-01         28 765,50 SEK
+TECH-2024-049  Kontor Malmö    RT-MAL-01           26 789,75 SEK
+TECH-2024-037  Säkerhetskopia  RT-DR-01            24 567,25 SEK
+
+Total cost of all incidents: 445,910.10 SEK
+
