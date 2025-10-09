@@ -10,13 +10,21 @@ with open('network_incidents.csv', encoding='utf-8') as f:
 report = "INCIDENT ANALYSIS - SEPTEMBER 2024\n\n"
 report +="Analysperiod: 2024-09-01 till 2024-09-30\n\n"
 
+# Showing off the sites sorted in one row
+sites = sorted({ (reader.get("site") or "").strip() for reader in incidents if reader.get("site") })
+sites_str = ", ".join(sites) if sites else "Okänt"
+
+report += f"Kontor: {sites_str}\n"
+
+report += "\n"
+
 report += "INCIDENTS PER SEVERITY\n-----------------------\n"
 
 # Loop for counting all the incidents per severity
 
 counts = {}
-for r in incidents:
-    sev = (r.get("severity") or "").strip().lower()
+for reader in incidents:
+    sev = (reader.get("severity") or "")
     if not sev:
         continue
     counts[sev] = counts.get(sev, 0) + 1
@@ -25,6 +33,30 @@ for r in incidents:
 
 for sev in ["critical", "high", "medium", "low"]:
     report += f"{sev.title():<10}{counts.get(sev, 0)}\n"
+
+report += "\n"
+
+#Writing how many incidents affected more than 100 users
+
+report += "INCIDENTS WITH HIGH USER IMPACT\n--------------------------------"
+
+report += "\n"
+
+high_impact = []
+
+for incident in incidents:
+    users = incident.get("affected_users")
+
+    if users and users.isdigit() and int(users) >= 100:
+     high_impact.append(incident)
+if high_impact:
+    for r in high_impact:   
+        report += f"{r['site']:15} {r['device_hostname']:20} {r['affected_users']} users\n"
+else:
+    report += "No high impact areas this time.\n"
+
+report += "\n"
+
 
 with open('incident_analysis.txt', 'w', encoding='utf-8') as f:
     f.write(report)

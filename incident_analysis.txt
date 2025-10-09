@@ -2,9 +2,24 @@ INCIDENT ANALYSIS - SEPTEMBER 2024
 
 Analysperiod: 2024-09-01 till 2024-09-30
 
+Kontor: Datacenter, Huvudkontor, Kontor Malmö, Lager, Säkerhetskopia
+
 INCIDENTS PER SEVERITY
 -----------------------
 Critical  10
 High      13
 Medium    17
 Low       12
+
+INCIDENTS WITH HIGH USER IMPACT
+--------------------------------
+Datacenter      SW-DC-TOR-02         156 users
+Datacenter      SW-DC-TOR-02         123 users
+Datacenter      SW-DC-TOR-02         189 users
+Datacenter      SW-DC-CORE-02        234 users
+Datacenter      FW-DC-02             145 users
+Datacenter      SW-DC-TOR-02         167 users
+Datacenter      LB-DC-02             198 users
+Datacenter      SW-DC-CORE-01        123 users
+Datacenter      FW-DC-01             178 users
+
