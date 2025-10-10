@@ -33,3 +33,9 @@ TECH-2024-037  Säkerhetskopia  RT-DR-01            24 567,25 SEK
 
 Total cost of all incidents: 445 910,10 SEK
 
+AVERAGE RESOLUTION TIME PER SEVERITY
+-------------------------------------
+Critical  : 118.8 min
+High      : 108.5 min
+Medium    : 113.2 min
+Low       : 107.1 min

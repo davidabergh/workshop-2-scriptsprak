@@ -88,7 +88,34 @@ report += "\n"
 
 #Calculated costs of all incidents
 total_cost = sum(r["_cost"] for r in incidents)
+
 report += "Total cost of all incidents: " + f"{total_cost:,.2f}".replace(",", " ").replace(".", ",") + " SEK\n\n"
+
+report += "AVERAGE RESOLUTION TIME PER SEVERITY\n-------------------------------------\n"
+
+# Creating a structure to sum up times per severity
+severity_times = {}
+severity_counts = {}
+
+#Picked r in variable cause it's easier
+for r in incidents: 
+    sev = (r.get("severity") or "").strip().lower()
+    time_str = r.get("resolution_minutes", "")
+    if sev and time_str.isdigit():
+        severity_times[sev] = severity_times.get(sev, 0) + int(time_str)
+        severity_counts[sev] = severity_counts.get(sev, 0) + 1
+
+for sev in ["critical", "high", "medium", "low"]:
+    total = severity_times.get(sev, 0)
+    count = severity_counts.get(sev, 0)
+    if count:
+        avg = total / count
+        report += f"{sev.title():<10}: {avg:.1f} min\n" #average handling time in minutes rounded to 1 decimal
+    else:
+        report += f"{sev.title():<10}: -\n"
+
+
+
 
 
 with open('incident_analysis.txt', 'w', encoding='utf-8') as f:
