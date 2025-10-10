@@ -110,9 +110,79 @@ for sev in ["critical", "high", "medium", "low"]:
     count = severity_counts.get(sev, 0)
     if count:
         avg = total / count
-        report += f"{sev.title():<10}: {avg:.1f} min\n" #average handling time in minutes rounded to 1 decimal
+        report += f"{sev.title():<10}: {avg:.1f} min\n\n" #average handling time in minutes rounded to 1 decimal
     else:
         report += f"{sev.title():<10}: -\n"
+
+report += "SUMMARY BY SITE\n----------------\n"
+
+#Making a counter to sum up the sites
+site_stats = {}
+
+for r in incidents:  
+    site = (r.get("site") or "Okänd").strip()
+
+    if "_cost" in r:
+        cost = float(r["_cost"])
+    else:
+        cs = (r.get("cost_sek") or "").replace(" ", "").replace(",", ".")
+        cost = float(cs) if cs else 0.0
+
+    # minuter (heltal), 0 om tomt/ogiltigt
+    mins_str = (r.get("resolution_minutes") or "").strip()
+    mins = int(mins_str) if mins_str.isdigit() else 0
+
+    if site not in site_stats:
+        site_stats[site] = {"count": 0, "cost": 0.0, "mins": 0}
+    site_stats[site]["count"] += 1
+    site_stats[site]["cost"]  += cost
+    site_stats[site]["mins"]  += mins
+
+# sorted out, swedish format
+report += f"{'Site':<18}{'Incidents':>10}{'Totalkostnad':>18}{'Snitt min':>12}\n"
+
+def fmt_sek(x: float) -> str:
+    # 12345.67 into swedish format "12 345,67"
+
+    return f"{x:,.2f}".replace(",", " ").replace(".", ",")
+for site in sorted(site_stats):
+    c   = site_stats[site]["count"]
+    tot = site_stats[site]["cost"]
+    m   = site_stats[site]["mins"]
+    avg = (m / c) if c else 0.0
+    report += f"{site:<18}{c:>10}{fmt_sek(tot):>18} {avg:>11.1f}\n\n"
+
+report += "INCIDENTS PER CATEGORY (AVERAGE IMPACT)\n-----------------------------------------\n"
+
+cat_scores = {}
+cat_counts = {}
+
+# Getting the categories and the impact score
+
+for r in incidents:
+    cat = (r.get("category") or "Okänd").strip()
+    score_str = (r.get("impact_score") or "").strip()
+    
+# Calculating average impact score, parsing scores to numbers
+    if score_str:
+        try:
+            score = float(score_str)
+        except ValueError:
+            score = 0.0
+    else:
+        score = 0.0
+
+# accumulating scores per category
+    cat_scores[cat] = cat_scores.get(cat, 0.0) + score
+    cat_counts[cat] = cat_counts.get(cat, 0) + 1
+
+
+for cat in sorted(cat_scores):
+    avg = cat_scores[cat] / cat_counts[cat] if cat_counts[cat] else 0.0 #the average score
+    report += f"{cat:<20} {avg:>6.2f}\n"
+
+
+
 
 
 
