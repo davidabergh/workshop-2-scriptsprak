@@ -181,7 +181,13 @@ for cat in sorted(cat_scores):
     avg = cat_scores[cat] / cat_counts[cat] if cat_counts[cat] else 0.0 #the average score
     report += f"{cat:<20} {avg:>6.2f}\n"
 
+#We are importing the following write script to our csv file incidents_by_site.sv
 
+from csv_out import write_incidents_by_site #csv_out is our 
+
+
+# write_incidents_by_site(...) is our function and the file for it is csv_out
+write_incidents_by_site(incidents, "incidents_by_site.csv")
 
 
 
